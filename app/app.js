@@ -6,9 +6,9 @@ var config =    {
     }
 };
 
-var app = angular
-            .module('myApp', ['ngRoute'])
-            .run(AppRun);
+angular
+    .module('lockkete', ['ngRoute'])
+    .run(AppRun);
 
 AppRun.$inject = ['$rootScope', '$location'];
 
@@ -22,7 +22,7 @@ function AppRun($rootScope, $location) {
 
 // SERVICE /////////////////////////////////////////////////////////////////////////////////////////////
 angular
-    .module('myApp')
+    .module('lockkete')
     .factory('AccountService', Factory);
 
 Factory.$inject = ['$http'];
@@ -61,7 +61,7 @@ function Factory($http) {
 
 // CONTROLLER //////////////////////////////////////////////////////////////////////////////////////////
 angular
-    .module('myApp')
+    .module('lockkete')
     .controller('List', ListController)
     .controller('Edit', EditController);
 
@@ -122,7 +122,7 @@ function EditController($scope, $rootScope, $location, $routeParams, AccountServ
 
 // ROUTES //////////////////////////////////////////////////////////////////////////////////////////////
 angular
-    .module('myApp')
+    .module('lockkete')
     .config(Routes);
 
 Routes.$inject = ['$routeProvider'];
