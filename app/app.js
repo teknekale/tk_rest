@@ -33,7 +33,7 @@ function Factory($http) {
             return $http.get(config.REST.endpoint + 'customers');
         },
 
-        'getCustomer': function(customerID){
+        'getCustomer': function(customerID) {
             return $http.get(config.REST.endpoint + 'customer?id=' + customerID);
         },
 
@@ -73,7 +73,8 @@ function ListController($scope, AccountService) {
 
     AccountService.getCustomers()
         .then(
-            function(data){
+            function(data) {
+                console.log(data);
                 $scope.customers = data.data;
             }
         );
