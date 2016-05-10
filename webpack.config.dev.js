@@ -23,7 +23,7 @@ module.exports = function() {
         },
 
         'output': {
-            'path': path.join(__dirname, 'site'),
+            'path': path.join(__dirname, 'build-dev'),
             'publicPath': '',
             'filename': '[name].js'
         },

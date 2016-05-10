@@ -11,18 +11,22 @@ var gulp = require('gulp'),
 gulp.task('default', ['webpack:build']);
 gulp.task('build', ['webpack:build']);
 gulp.task('run', ['watch-dev']);
-gulp.task('clean', function(done) { del(['site'], done); });
 
 gulp.task('watch-dev', ['webpack:dev'], function() {
     gulp.watch(['client/**/*'], ['webpack:dev']);
 });
 
-gulp.task('copy-static', function() {
-    gulp.src(['client/images/**/*']).pipe(gulp.dest('site/images'));
-    gulp.src(['client/fonts/**/*']).pipe(gulp.dest('site/fonts'));
+gulp.task('copy-static-dev', function() {
+    gulp.src(['client/images/**/*']).pipe(gulp.dest('build-dev/images'));
+    gulp.src(['client/fonts/**/*']).pipe(gulp.dest('build-dev/fonts'));
 });
 
-gulp.task('webpack:dev', ['copy-static'], function(callback) {
+gulp.task('copy-static-site', function() {
+    gulp.src(['client/images/**/*']).pipe(gulp.dest('build-site/images'));
+    gulp.src(['client/fonts/**/*']).pipe(gulp.dest('build-site/fonts'));
+});
+
+gulp.task('webpack:dev', ['copy-static-dev'], function(callback) {
     var config = Object.create(webpackConfig);
 
     config.debug = true;
@@ -37,7 +41,7 @@ gulp.task('webpack:dev', ['copy-static'], function(callback) {
     });
 });
 
-gulp.task('webpack:build', ['copy-static'], function(callback) {
+gulp.task('webpack:build', ['copy-static-site'], function(callback) {
     var config = Object.create(webpackConfigbuild);
 
     config.debug = true;

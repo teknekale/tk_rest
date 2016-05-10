@@ -2,8 +2,8 @@
 
 node_modules/
 .idea/
-build/
-site/
+build-dev/
+build-site/
 
 *.iml
 *.class
