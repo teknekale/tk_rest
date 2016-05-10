@@ -13,6 +13,7 @@ require('edit/edit.module');
 require('data/translations/en');
 require('data/data.module');
 require('services/services.module');
+require('layout/layout.module');
 
 // Dependency injection
 angular.module('app', [
@@ -23,7 +24,8 @@ angular.module('app', [
         'app.list',
         'app.data',
         'app.services',
-        'app.translations'
+        'app.translations',
+        'app.layout'
     ])
     .config(AppConfig)
     .run(AppRun);

@@ -1,3 +1,5 @@
+'use strict';
+
 angular
     .module('app.data')
     .config(Routes);
@@ -10,19 +12,34 @@ function Routes($routeProvider) {
     $routeProvider.
         when('/', {
             title: 'Customers',
-            templateUrl: 'list/list.html',
-            controller: 'List'
+            templateUrl: 'layout/body.html',
+            controller: 'Body',
+            resolve: {
+                customer: '',
+                level:    'list'
+            }
         })
 
         .when('/edit-customer/:customerID', {
             title: 'Edit Customers',
-            templateUrl: 'edit/edit.html',
-            controller: 'Edit',
+            templateUrl: 'layout/body.html',
+            controller: 'Body',
             resolve: {
-                customer:   function(AccountService, $route) {
-                    var customerID = $route.current.params.customerID;
-                    return AccountService.getCustomer(customerID);
-                }
+                customer: function(AccountService, $route) {
+                              var customerID = $route.current.params.customerID;
+                              return AccountService.getCustomer(customerID);
+                          },
+                level:    'edit'
+            }
+        })
+
+        .when('/new-customer', {
+            title: 'Edit Customers',
+            templateUrl: 'layout/body.html',
+            controller: 'Body',
+            resolve: {
+                customer: '',
+                level:    'new'
             }
         })
 
