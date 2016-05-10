@@ -1,15 +1,14 @@
 # Tekne Kale - Git Ignore
 
 node_modules/
-*.iml
 .idea/
-/out/
-.idea_modules/
+build/
+site/
 
+*.iml
 *.class
 *.jar
 *.war
 *.ear
 *.zip
 
-hs_err_pid*

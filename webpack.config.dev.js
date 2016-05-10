@@ -1,5 +1,6 @@
 var path = require('path'),
     webpack = require('webpack'),
+    extractTextPlugin = require("extract-text-webpack-plugin"),
     htmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = function() {
@@ -22,14 +23,15 @@ module.exports = function() {
         },
 
         'output': {
-            'path': path.join(__dirname, 'build'),
+            'path': path.join(__dirname, 'site'),
             'publicPath': '',
             'filename': '[name].js'
-            //'filename': '[name][hash].js'
         },
 
         'module': {
             'loaders': [
+                {'test': /\.css$/,  'loader' : extractTextPlugin.extract('style', 'css')},
+                {'test': /\.less$/, 'loader' : extractTextPlugin.extract('style', 'css!less')},
                 {'test': /\.png$/,  'loader' : 'url', 'query': {'limit': 8192, 'mimetype': 'image/png'}},
                 {'test': /\.jpg$/,  'loader' : 'file'},
                 {'test': /\.gif$/,  'loader' : 'file'},
@@ -64,7 +66,7 @@ module.exports = function() {
 
         'plugins': [
             new webpack.optimize.CommonsChunkPlugin('vendor', '[name].js'),
-            //new webpack.optimize.CommonsChunkPlugin('vendor', '[name][hash].js'),
+            new extractTextPlugin('[name].css'),
             new htmlWebpackPlugin({
                 'filename': 'index.html',
                 'template': 'client/static/index.html',

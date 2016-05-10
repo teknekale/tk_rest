@@ -8,13 +8,22 @@ require('angular-route');
 require('angular-sanitize');
 
 // Loading app modules
-
+require('list/list.module');
+require('edit/edit.module');
+require('data/translations/en');
+require('data/data.module');
+require('services/services.module');
 
 // Dependency injection
 angular.module('app', [
         'ngSanitize',
-        'ngRoute'
-
+        'ngRoute',
+    
+        'app.edit',
+        'app.list',
+        'app.data',
+        'app.services',
+        'app.translations'
     ])
     .config(AppConfig)
     .run(AppRun);
@@ -22,9 +31,7 @@ angular.module('app', [
 // Global AngularJS configuration goes here
 AppConfig.$inject = [];
 
-function AppConfig() {
-
-}
+function AppConfig() {}
 
 AppRun.$inject = ['$rootScope'];
 
