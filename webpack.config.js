@@ -1,0 +1,76 @@
+var path = require('path'),
+    webpack = require('webpack'),
+    htmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = function() {
+    var config = {
+        'entry': {
+            'app': 'app.module',
+
+            'styles': [
+                'styles.less'
+            ],
+
+            'vendor': [
+                'angular',
+                'angular-route',
+                'angular-resource',
+                'angular-sanitize',
+                'angular-translate',
+                'path'
+            ]
+        },
+
+        'output': {
+            'path': path.join(__dirname, 'build'),
+            'publicPath': '',
+            'filename': '[name].js'
+            //'filename': '[name][hash].js'
+        },
+
+        'module': {
+            'loaders': [
+                {'test': /\.png$/,  'loader' : 'url', 'query': {'limit': 8192, 'mimetype': 'image/png'}},
+                {'test': /\.jpg$/,  'loader' : 'file'},
+                {'test': /\.gif$/,  'loader' : 'file'},
+                {'test': /\.eot$/,  'loader' : 'file'},
+                {'test': /\.woff$/, 'loader' : 'file'},
+                {'test': /\.woff2$/,'loader' : 'file'},
+                {'test': /\.ttf$/,  'loader' : 'file'},
+                {'test': /\.svg$/,  'loader' : 'file'},
+                {'test': /\.html$/, 'loaders': ['ngtemplate?relativeTo=/javascript/', 'raw']}
+            ]
+        },
+
+        'resolve': {
+            'root': [
+                path.join(__dirname, 'client/javascript'),
+                path.join(__dirname, 'client/less'),
+                path.join(__dirname, 'client/images'),
+                path.join(__dirname, 'client/fonts'),
+                path.join(__dirname, 'client/static'),
+                path.join(__dirname, 'client/libs'),
+                path.join(__dirname, 'node_modules')
+            ],
+
+            'alias': {}
+        },
+
+        'resolveLoader': {
+            'root': [
+                path.join(__dirname, 'node_modules')
+            ]
+        },
+
+        'plugins': [
+            new webpack.optimize.CommonsChunkPlugin('vendor', '[name].js'),
+            //new webpack.optimize.CommonsChunkPlugin('vendor', '[name][hash].js'),
+            new htmlWebpackPlugin({
+                'filename': 'index.html',
+                'template': 'client/static/index.html',
+                'inject': 'body'
+            })
+        ]
+    };
+    return config;
+}();

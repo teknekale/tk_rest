@@ -2,7 +2,7 @@
 
 var config =    {
     'REST': {
-        'endpoint': 'services/'
+        'endpoint': 'service/'
     }
 };
 
