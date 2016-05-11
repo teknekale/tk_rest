@@ -13,7 +13,8 @@ function Controller($rootScope, AccountService) {
 
     $rootScope.title = 'Customer List';
 
-    AccountService.getCustomers()
+    AccountService
+        .getCustomers()
         .then(
             function(data) {
                 console.log(data);

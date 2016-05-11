@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
+
 require('edit/edit.html');
 
 angular
@@ -11,25 +13,32 @@ Controller.$inject = ['$rootScope', '$location', '$routeParams', 'AccountService
 function Controller($rootScope, $location, $routeParams, AccountService) {
     var vm         = this,
         customerID = ($routeParams.customerID) ? parseInt($routeParams.customerID) : 0,
-        original   = getCustomer();
-
-    original._id   = customerID;
+        original;
 
     $rootScope.title = (customerID > 0) ? 'Edit Customer' : 'Add Customer';
     vm.buttonText    = (customerID > 0) ? 'Update Customer' : 'Add New Customer';
-    vm.customer      = getCustomer();
-    vm.customer._id  = customerID;
 
     vm.isClean        = isClean;
     vm.deleteCustomer = deleteCustomer;
     vm.saveCustomer   = saveCustomer;
+
+    getCustomer();
 
     function isClean() {
         return angular.equals(original, vm.customer);
     }
 
     function getCustomer() {
-        return AccountService.getCustomer(customerID);
+        AccountService
+            .getCustomer(customerID)
+            .then(function(data) {
+                if(!_.isEmpty(data.data)) {
+                    original        = data.data;
+                    original._id    = customerID;
+                    vm.customer     = data.data;
+                    vm.customer._id = customerID;
+                }
+            });
     }
 
     function deleteCustomer(customer) {
