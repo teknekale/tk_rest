@@ -4,16 +4,24 @@ require('layout/body.html');
 
 angular
     .module('app.layout')
-    .controller('Body', Controller);
+    .directive('aplBody', Directive);
 
-Controller.$inject = ['$scope', '$rootScope', 'AccountService', 'customer', 'level'];
+Directive.$inject = [];
 
-function Controller($scope, customer, level) {
+function Directive() {
+    function Link($scope, $element) {
 
-    $scope.isList = level === 'list' ? true : false;
-    $scope.customer = customer;
-    
-    if($scope.isList) {
-        $scope.customerID = $routeParams.customerID ? parseInt($routeParams.customerID) : 0;
     }
+
+    function Controller() {
+
+    }
+
+    return {
+        'link': Link,
+        'controller': ['$scope', Controller],
+        'restrict': 'E',
+        'replace': true,
+        'templateUrl': 'layout/body.html'
+    };
 }

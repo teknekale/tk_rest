@@ -4,25 +4,18 @@ require('list/list.html');
 
 angular
     .module('app.list')
-    .directive('tkList', Directive);
+    .controller('ListController', Controller);
 
-Directive.$inject = ['AccountService'];
+Controller.$inject = ['AccountService'];
 
-function Directive(AccountService) {
-    function Link($scope) {
-        AccountService.getCustomers()
-            .then(
-                function(data) {
-                    console.log(data);
-                    $scope.customers = data.data;
-                }
-            );
-    }
+function Controller(AccountService) {
+    var vm = this;
 
-    return {
-        'link': Link,
-        'restrict': 'E',
-        'replace': true,
-        'templateUrl': 'list/list.html'
-    };
+    AccountService.getCustomers()
+        .then(
+            function(data) {
+                console.log(data);
+                vm.customers = data.data;
+            }
+        );
 }

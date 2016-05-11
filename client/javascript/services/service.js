@@ -1,5 +1,7 @@
 'use strict';
 
+var config  = require('config');
+
 angular
     .module('app.services')
     .factory('AccountService', Factory);

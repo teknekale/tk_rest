@@ -2,9 +2,18 @@
 <html lang="en" data-ng-app="app" ng-strict-di>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Lockkete</title>
+        <title>Lokkete</title>
     </head>
-    <body class="-full-size">
-        <div ng-view="" id="ng-view"></div>
+    <body>
+
+        <div ng-switch="isLoggedIn">
+            <div ng-switch-when="true">
+                <apl-body></apl-body>
+            </div>
+            <div ng-switch-default>
+                <span>login</span>
+            </div>
+        </div>
+
     </body>
 </html>

@@ -38,5 +38,5 @@ function AppConfig() {}
 AppRun.$inject = ['$rootScope'];
 
 function AppRun($rootScope) {
-    $rootScope.isLoggedIn = false;
+    $rootScope.isLoggedIn = true;
 }
