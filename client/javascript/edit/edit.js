@@ -4,57 +4,50 @@ require('edit/edit.html');
 
 angular
     .module('app.edit')
-    .directive('tkEdit', Directive);
+    .controller('EditController', Controller);
 
-Directive.$inject = ['$rootScope', '$location', '$routeParams', 'AccountService'];
+Controller.$inject = ['$rootScope', '$location', '$routeParams', 'AccountService'];
 
-function Directive($rootScope, $location, $routeParams, AccountService) {
-    function Link($scope) {
-        var customerID = ($routeParams.customerID) ? parseInt($routeParams.customerID) : 0,
-            original = $scope.customer.data;
+function Controller($rootScope, $location, $routeParams, AccountService) {
+    var vm         = this,
+        customerID = ($routeParams.customerID) ? parseInt($routeParams.customerID) : 0,
+        original   = getCustomer();
 
-        original._id = customerID;
+    original._id   = customerID;
 
-        $rootScope.title = (customerID > 0) ? 'Edit Customer' : 'Add Customer';
-        $scope.buttonText = (customerID > 0) ? 'Update Customer' : 'Add New Customer';
-        $scope.customer = angular.copy(original);
-        $scope.customer._id = customerID;
+    $rootScope.title = (customerID > 0) ? 'Edit Customer' : 'Add Customer';
+    vm.buttonText    = (customerID > 0) ? 'Update Customer' : 'Add New Customer';
+    vm.customer      = getCustomer();
+    vm.customer._id  = customerID;
 
-        $scope.isClean = isClean;
-        $scope.deleteCustomer = deleteCustomer;
-        $scope.saveCustomer = saveCustomer;
+    vm.isClean        = isClean;
+    vm.deleteCustomer = deleteCustomer;
+    vm.saveCustomer   = saveCustomer;
 
-        function isClean() {
-            return angular.equals(original, $scope.customer);
-        }
-
-        function deleteCustomer(customer) {
-            $location.path('/');
-
-            if (confirm("Are you sure to delete customer number: " + $scope.customer._id) == true) {
-                AccountService.deleteCustomer(customer.customerNumber);
-            }
-        };
-
-        function saveCustomer(customer) {
-            $location.path('/');
-
-            if (customerID <= 0) {
-                AccountService.insertCustomer(customer);
-            }
-            else {
-                AccountService.updateCustomer(customerID, customer);
-            }
-        };
+    function isClean() {
+        return angular.equals(original, vm.customer);
     }
 
-    return {
-        'link': Link,
-        'restrict': 'E',
-        'replace': true,
-        'templateUrl': 'edit/edit.html',
-        'scope': {
-            'customer':'='
+    function getCustomer() {
+        return AccountService.getCustomer(customerID);
+    }
+
+    function deleteCustomer(customer) {
+        $location.path('/');
+
+        if (confirm("Are you sure to delete customer number: " + vm.customer._id) == true) {
+            AccountService.deleteCustomer(customer.customerNumber);
         }
-    };
+    }
+
+    function saveCustomer(customer) {
+        $location.path('/');
+
+        if (customerID <= 0) {
+            AccountService.insertCustomer(customer);
+        }
+        else {
+            AccountService.updateCustomer(customerID, customer);
+        }
+    }
 }

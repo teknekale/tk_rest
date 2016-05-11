@@ -21,9 +21,14 @@ class DBUTILS
         );
     }
 
+    public function dbClose() {
+        mysqli_close($this->_mysqli);
+    }
+
     public function response($data, $status) {
         $this->_code = ($status) ? $status : 200;
         $this->set_headers();
+        $this->dbClose();
         echo $data;
 
         exit;
@@ -56,6 +61,12 @@ class DBUTILS
     public function json($data) {
         if(is_array($data)) {
             return json_encode($data);
+        }
+    }
+
+    public function checkCall($type) {
+        if($this->get_request_method() != $type) {
+            $this->response('', 406);
         }
     }
 }

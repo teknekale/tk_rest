@@ -53,30 +53,18 @@ class API extends REST
 //	}
 
 	private function customers() {
+		$this->checkCall("GET");
         $this->_customer->getCustomers();
 	}
 
 	private function customer() {
-//		if($this->get_request_method() != "GET") {
-//			$this->response('', 406);
-//		}
-//		$id = (int)$this->_request['id'];
-//		if($id > 0) {
-//			$query="SELECT distinct c.customerNumber, c.customerName, c.email, c.address, c.city, c.state, c.postalCode, c.country FROM angularcode_customers c where c.customerNumber=$id";
-//			$r = $this->_mysqli->query($query) or die($this->_mysqli->error.__LINE__);
-//			if($r->num_rows > 0) {
-//				$result = $r->fetch_assoc();
-//				$this->response($this->json($result), 200); // send user details
-//			}
-//		}
-//		$this->response('', 204);	// If no records "No Content" status
+		$this->checkCall("GET");
+		$this->_customer->getCustomer();
 	}
 
 	private function insertCustomer() {
-//		if($this->get_request_method() != "POST") {
-//			$this->response('', 406);
-//		}
-//
+		$this->checkCall("POST");
+
 //		$customer = json_decode(file_get_contents("php://input"),true);
 //		$column_names = array('customerName', 'email', 'city', 'address', 'country');
 //		$keys = array_keys($customer);
@@ -100,9 +88,8 @@ class API extends REST
 //			$this->response('', 204);	//"No Content" status
 	}
 	private function updateCustomer() {
-//		if($this->get_request_method() != "POST") {
-//			$this->response('', 406);
-//		}
+		$this->checkCall("POST");
+
 //		$customer = json_decode(file_get_contents("php://input"),true);
 //		$id = (int)$customer['id'];
 //		$column_names = array('customerName', 'email', 'city', 'address', 'country');

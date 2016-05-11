@@ -6,10 +6,12 @@ angular
     .module('app.list')
     .controller('ListController', Controller);
 
-Controller.$inject = ['AccountService'];
+Controller.$inject = ['$rootScope', 'AccountService'];
 
-function Controller(AccountService) {
+function Controller($rootScope, AccountService) {
     var vm = this;
+
+    $rootScope.title = 'Customer List';
 
     AccountService.getCustomers()
         .then(
