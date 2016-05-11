@@ -13,32 +13,32 @@ Controller.$inject = ['$rootScope', '$location', '$routeParams', 'AccountService
 function Controller($rootScope, $location, $routeParams, AccountService) {
     var vm         = this,
         customerID = ($routeParams.customerID) ? parseInt($routeParams.customerID) : 0,
+        isLoaded   = false,
         original;
 
     $rootScope.title = (customerID > 0) ? 'Edit Customer' : 'Add Customer';
     vm.buttonText    = (customerID > 0) ? 'Update Customer' : 'Add New Customer';
 
-    vm.isClean        = isClean;
     vm.deleteCustomer = deleteCustomer;
     vm.saveCustomer   = saveCustomer;
 
     getCustomer();
 
-    function isClean() {
-        return angular.equals(original, vm.customer);
-    }
-
     function getCustomer() {
-        AccountService
-            .getCustomer(customerID)
-            .then(function(data) {
-                if(!_.isEmpty(data.data)) {
-                    original        = data.data;
-                    original._id    = customerID;
-                    vm.customer     = data.data;
-                    vm.customer._id = customerID;
-                }
-            });
+        if(!isLoaded) {
+            AccountService
+                .getCustomer(customerID)
+                .then(function (data) {
+                    if (!_.isEmpty(data.data)) {
+                        isLoaded = true;
+
+                        original = data.data;
+                        original._id = customerID;
+                        vm.customer = original;
+                        vm.customer._id = original._id;
+                    }
+                });
+        }
     }
 
     function deleteCustomer(customer) {

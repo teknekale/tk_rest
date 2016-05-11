@@ -64,10 +64,10 @@
                                 <label class= "col-md-2"></label>
                                 <div class="col-md-4">
                                 <a href="#/" class="btn">Cancel</a>
-                                    <button ng-click="saveCustomer(vm.customer);"
-                                            ng-disabled="isClean() || myForm.$invalid"
-                                            class="btn btn-primary">{{buttonText}}</button>
-                                    <button ng-click="deleteCustomer(vm.customer)"
+                                    <button ng-click="vm.saveCustomer(vm.customer);"
+                                            ng-disabled="myForm.$invalid"
+                                            class="btn btn-primary">SAVE</button>
+                                    <button ng-click="vm.deleteCustomer(vm.customer)"
                                             ng-show="vm.customer._id" class="btn btn-warning">Delete</button>
                                 </div>
                             </div>
