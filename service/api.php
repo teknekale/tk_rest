@@ -29,51 +29,27 @@ class API extends REST
         }
 	}
 
-//	private function login() {
-//		if($this->get_request_method() != "POST") {
-//			$this->response('', 406);
-//		}
-//		$email = $this->_request['email'];
-//		$password = $this->_request['pwd'];
-//		if(!empty($email) and !empty($password)) {
-//			if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
-//				$r = $this->_mysqli->query($this->_user->login($email, $password)) or die($this->_mysqli->error.__LINE__);
-//
-//				if($r->num_rows > 0) {
-//					$result = $r->fetch_assoc();
-//					// If success everythig is good send header as "OK" and user details
-//					$this->response($this->json($result), 200);
-//				}
-//				$this->response('', 204);	// If no records "No Content" status
-//			}
-//		}
-//
-//		$error = array('status' => "Failed", "msg" => "Invalid Email address or Password");
-//		$this->response($this->json($error), 400);
-//	}
+//////////////////////////////////////////////////////////////////////////////////////////
+//	LOGIN
 
-	private function customers() {
-        $this->_customer->getCustomers();
-	}
+	private function login() { $this->_auth->login(); }
+//////////////////////////////////////////////////////////////////////////////////////////
+//  CUSTOMER
 
-	private function customer() {
-		$this->checkCall("GET");
-		$this->_customer->getCustomer();
-	}
+	private function customers() 	  { $this->_customer->getCustomers(); 	}
+	private function customer() 	  { $this->_customer->getCustomer(); 	}
+	private function insertCustomer() { $this->_customer->insertCustomer(); }
+	private function updateCustomer() { $this->_customer->updateCustomer(); }
+	private function deleteCustomer() { $this->_customer->updateCustomer(); }
+//////////////////////////////////////////////////////////////////////////////////////////
+//  USER
 
-	private function insertCustomer() {
-		$this->checkCall("POST");
-		$this->_customer->insertCustomer();
-	}
-	private function updateCustomer() {
-		$this->checkCall("POST");
-		$this->_customer->updateCustomer();
-	}
-
-	private function deleteCustomer() {
-		$this->checkCall("DELETE");
-		$this->_customer->updateCustomer();
-	}
+	private function users() 	  { $this->_user->getUsers(); 	}
+	private function user() 	  { $this->_user->getUser(); 	}
+	private function insertUser() { $this->_user->insertUser(); }
+	private function updateUser() { $this->_user->updateUser(); }
+	private function deleteUser() { $this->_user->updateUser(); }
+//////////////////////////////////////////////////////////////////////////////////////////
 }
 
 // Initiiate Library

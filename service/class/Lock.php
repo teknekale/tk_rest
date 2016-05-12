@@ -1,23 +1,24 @@
 <?php
 
-require_once("inc/DBUtils.php");
+require_once("inc/Rest.php");
 
-Class USER extends DBUTILS
+Class LOCK extends REST
 {
-    public function getUsers()
+    public function getLocks()
     {
         $this->checkCall("GET");
 
-        $query = " SELECT DISTINCT c.customerNumber,       " .
-            "                 c.customerName,         " .
-            "                 c.email,                " .
-            "                 c.address,              " .
-            "                 c.city,                 " .
-            "                 c.state,                " .
-            "                 c.postalCode,           " .
-            "                 c.country               " .
-            "            FROM angularcode_customers c " .
-            "        order by c.customerNumber desc   " .
+        $query = " SELECT DISTINCT id,          " .
+            "                      user_id,     " .
+            "                      what,        " .
+            "                      type,        " .
+            "                      email,       " .
+            "                      password,    " .
+            "                      note,        " .
+            "                      date_create, " .
+            "                      date_edit    " .
+            "                 FROM store_lock   " .
+            "             ORDER BY type DESC    " .
             "";
 
         $this->_mysqli = $this->dbConnect();
@@ -37,23 +38,25 @@ Class USER extends DBUTILS
         $this->_mysqli = null;
     }
 
-    public function getUser()
+    public function getLock()
     {
         $this->checkCall("GET");
 
         $id = (int)$this->_request['id'];
 
         if ($id > 0) {
-            $query = " SELECT DISTINCT c.customerNumber,         " .
-                "                 c.customerName,           " .
-                "                 c.email,                  " .
-                "                 c.address,                " .
-                "                 c.city,                   " .
-                "                 c.state,                  " .
-                "                 c.postalCode,             " .
-                "                 c.country                 " .
-                "            FROM angularcode_customers c   " .
-                "           WHERE c.customerNumber = " . $id;
+
+            $query = " SELECT DISTINCT id,            " .
+                "                      user_id,       " .
+                "                      what,          " .
+                "                      type,          " .
+                "                      email,         " .
+                "                      password,      " .
+                "                      note,          " .
+                "                      date_create,   " .
+                "                      date_edit      " .
+                "                 FROM store_lock     " .
+                "                WHERE id = " . $id;
 
             $this->_mysqli = $this->dbConnect();
             $r = $this->_mysqli->query($query) or die($this->_mysqli->error . __LINE__);
@@ -67,13 +70,13 @@ Class USER extends DBUTILS
         $this->response('', 204);
     }
 
-    public function insertUser()
+    public function insertLock()
     {
         $this->checkCall("POST");
 
-        $customer = json_decode(file_get_contents("php://input"), true);
-        $column_names = array('customerName', 'email', 'city', 'address', 'country');
-        $keys = array_keys($customer);
+        $lock = json_decode(file_get_contents("php://input"), true);
+        $column_names = array('user_id', 'what', 'type', 'email', 'password', 'note', 'date_create', 'date_edit');
+        $keys = array_keys($lock);
         $columns = '';
         $values = '';
 
@@ -81,24 +84,24 @@ Class USER extends DBUTILS
             if (!in_array($desired_key, $keys)) {
                 $$desired_key = '';
             } else {
-                $$desired_key = $customer[$desired_key];
+                $$desired_key = $lock[$desired_key];
             }
 
             $columns = $columns . $desired_key . ',';
             $values = $values . "'" . $$desired_key . "',";
         }
 
-        $query = " INSERT INTO angularcode_customers(" . trim($columns, ',') . ")" .
-            "      VALUES(" . trim($values, ',') . ")";
+        $query = " INSERT INTO store_lock(" . trim($columns, ',') . ")" .
+                 "      VALUES(" . trim($values, ',') . ")";
 
-        if (!empty($customer)) {
+        if (!empty($lock)) {
             $this->_mysqli = $this->dbConnect();
             $r = $this->_mysqli->query($query) or die($this->_mysqli->error . __LINE__);
 
             $success = array(
                 'status' => "Success",
-                "msg" => "Customer Created Successfully.",
-                "data" => $customer
+                "msg"    => "Lock Created Successfully.",
+                "data"   => $lock
             );
 
             $this->response($this->json($success), 200);
@@ -107,36 +110,36 @@ Class USER extends DBUTILS
         }
     }
 
-    public function updateUser()
+    public function updateLock()
     {
         $this->checkCall("POST");
 
-        $customer = json_decode(file_get_contents("php://input"), true);
-        $id = (int)$customer['id'];
+        $lock = json_decode(file_get_contents("php://input"), true);
+        $id = (int)$lock['id'];
         $column_names = array('customerName', 'email', 'city', 'address', 'country');
-        $keys = array_keys($customer['customer']);
+        $keys = array_keys($lock['lock']);
         $columns = '';
 
         foreach ($column_names as $desired_key) {
             if (!in_array($desired_key, $keys)) {
                 $$desired_key = '';
             } else {
-                $$desired_key = $customer['customer'][$desired_key];
+                $$desired_key = $lock['lock'][$desired_key];
             }
 
             $columns = $columns . $desired_key . "='" . $$desired_key . "',";
         }
 
-        $query = " UPDATE angularcode_customers SET " . trim($columns, ',') .
-            "  WHERE customerNumber=$id";
+        $query = " UPDATE store_lock SET " . trim($columns, ',') .
+                 "  WHERE customerNumber=$id";
 
-        if (!empty($customer)) {
+        if (!empty($lock)) {
             $this->_mysqli = $this->dbConnect();
             $r = $this->_mysqli->query($query) or die($this->_mysqli->error . __LINE__);
             $success = array(
                 'status' => "Success",
-                "msg" => "Customer " . $id . " Updated Successfully.",
-                "data" => $customer
+                "msg"    => "Lock " . $id . " Updated Successfully.",
+                "data"   => $lock
             );
 
             $this->response($this->json($success), 200);
@@ -145,14 +148,14 @@ Class USER extends DBUTILS
         }
     }
 
-    public function deleteUser()
+    public function deleteLock()
     {
         $this->checkCall("DELETE");
 
         $id = (int)$this->_request['id'];
 
         if ($id > 0) {
-            $query = " DELETE FROM angularcode_customers" .
+            $query = " DELETE FROM store_lock" .
                 "       WHERE customerNumber = " . $id;
 
             $this->_mysqli = $this->dbConnect();

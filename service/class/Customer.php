@@ -8,17 +8,17 @@ Class CUSTOMER extends REST
     {
         $this->checkCall("GET");
 
-        $query = " SELECT distinct c.customerNumber,       " .
-                 "                 c.customerName,         " .
-                 "                 c.email,                " .
-                 "                 c.address,              " .
-                 "                 c.city,                 " .
-                 "                 c.state,                " .
-                 "                 c.postalCode,           " .
-                 "                 c.country               " .
-                 "            FROM angularcode_customers c " .
-                 "        order by c.customerNumber desc   " .
-                 "";
+        $query = " SELECT DISTINCT c.customerNumber,       " .
+            "                      c.customerName,         " .
+            "                      c.email,                " .
+            "                      c.address,              " .
+            "                      c.city,                 " .
+            "                      c.state,                " .
+            "                      c.postalCode,           " .
+            "                      c.country               " .
+            "                 FROM angularcode_customers c " .
+            "             order by c.customerNumber desc   " .
+            "";
 
         $this->_mysqli = $this->dbConnect();
         $r = $this->_mysqli->query($query) or die($this->_mysqli->error . __LINE__);
@@ -45,15 +45,15 @@ Class CUSTOMER extends REST
 
         if ($id > 0) {
             $query = " SELECT DISTINCT c.customerNumber,         " .
-                     "                 c.customerName,           " .
-                     "                 c.email,                  " .
-                     "                 c.address,                " .
-                     "                 c.city,                   " .
-                     "                 c.state,                  " .
-                     "                 c.postalCode,             " .
-                     "                 c.country                 " .
-                     "            FROM angularcode_customers c   " .
-                     "           WHERE c.customerNumber = " . $id;
+                "                      c.customerName,           " .
+                "                      c.email,                  " .
+                "                      c.address,                " .
+                "                      c.city,                   " .
+                "                      c.state,                  " .
+                "                      c.postalCode,             " .
+                "                      c.country                 " .
+                "                 FROM angularcode_customers c   " .
+                "                WHERE c.customerNumber = " . $id;
 
             $this->_mysqli = $this->dbConnect();
             $r = $this->_mysqli->query($query) or die($this->_mysqli->error . __LINE__);
@@ -97,8 +97,8 @@ Class CUSTOMER extends REST
 
             $success = array(
                 'status' => "Success",
-                "msg" => "Customer Created Successfully.",
-                "data" => $customer
+                "msg"    => "Customer Created Successfully.",
+                "data"   => $customer
             );
 
             $this->response($this->json($success), 200);
@@ -135,8 +135,8 @@ Class CUSTOMER extends REST
             $r = $this->_mysqli->query($query) or die($this->_mysqli->error . __LINE__);
             $success = array(
                 'status' => "Success",
-                "msg" => "Customer " . $id . " Updated Successfully.",
-                "data" => $customer
+                "msg"    => "Customer " . $id . " Updated Successfully.",
+                "data"   => $customer
             );
 
             $this->response($this->json($success), 200);
