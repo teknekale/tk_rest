@@ -4,7 +4,7 @@ require('layout/body.html');
 
 angular
     .module('app.layout')
-    .directive('aplBody', Directive);
+    .directive('tkBody', Directive);
 
 Directive.$inject = [];
 

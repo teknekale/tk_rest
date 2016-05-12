@@ -29,6 +29,8 @@ gulp.task('copy-static-site', function() {
 gulp.task('webpack:dev', ['copy-static-dev'], function(callback) {
     var config = Object.create(webpackConfig);
 
+    config.debug = true;
+    config.devtool = 'source-map';
     config.resolve.alias['config'] = 'config.js';
 
     webpack(config, function(err, stats) {

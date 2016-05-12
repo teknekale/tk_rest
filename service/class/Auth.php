@@ -1,48 +1,57 @@
 <?php
 
-require_once("inc/DBUtils.php");
+require_once("inc/Rest.php");
 
-Class AUTH extends DBUTILS
+Class AUTH extends REST
 {
     public function login()
     {
         $this->checkCall("POST");
 
-		$email    = $this->_request['email'];
-		$password = $this->_request['password'];
+        $auth = json_decode(file_get_contents("php://input"), true);
+        $column_names = array('username\', \'password');
+        $keys = array_keys($auth);
+        $columns = '';
+        $values = '';
 
-        $query = " SELECT id,                                     " .
-            "             username,                               " .
-            "             nome,                                   " .
-            "             cognome,                                " .
-            "             email,                                  " .
-            "             password,                               " .
-            "             type,                                   " .
-            "             note,                                   " .
-            "             date_create,                            " .
-            "             date_edit,                              " .
-            "        FROM users                                   " .
-            "       WHERE email = '$email'                        " .
-            "         AND password = '".md5($password)."' LIMIT 1 " .
-            "";
+        foreach ($column_names as $desired_key) {
+            if (!in_array($desired_key, $keys)) {
+                $$desired_key = '';
+            } else {
+                $$desired_key = $auth[$desired_key];
+            }
 
-		if(!empty($email) and !empty($password)) {
-			if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
-				$r = $this->_mysqli->query($query) or die($this->_mysqli->error.__LINE__);
+            $columns = $columns . $desired_key . ',';
+            $values = $values . "'" . $$desired_key . "',";
+        }
 
-				if($r->num_rows > 0) {
-					$result = $r->fetch_assoc();
+		if(!empty($username) and !empty($password)) {
+            $query = " SELECT id,         " .
+                "             username,   " .
+                "             nome,       " .
+                "             cognome,    " .
+                "             email,      " .
+                "             type,       " .
+                "             note,       " .
+                "        FROM users       " .
+                "       WHERE username = '" . $values['username'] . "'          " .
+                "         AND password = '" . $values['password'] . "' LIMIT 1  " .
+                "";
 
-					$this->response($this->json($result), 200);
-				}
+            $this->_mysqli = $this->dbConnect();
+            $r = $this->_mysqli->query($query) or die($this->_mysqli->error.__LINE__);
 
-				$this->response('', 204);
-			}
+            if ($r->num_rows > 0) {
+                $result = $r->fetch_assoc();
+                $this->response($this->json($result), 200);
+            }
+
+            $this->response('', 204);
 		}
 
 		$error = array(
             'status' => "Failed",
-            "msg"    => "Invalid Email address or Password"
+            "msg"    => "Invalid Username address or Password"
         );
 
 		$this->response($this->json($error), 400);

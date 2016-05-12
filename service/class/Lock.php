@@ -46,16 +46,16 @@ Class LOCK extends REST
 
         if ($id > 0) {
 
-            $query = " SELECT DISTINCT id,            " .
-                "                      user_id,       " .
-                "                      what,          " .
-                "                      type,          " .
-                "                      email,         " .
-                "                      password,      " .
-                "                      note,          " .
-                "                      date_create,   " .
-                "                      date_edit      " .
-                "                 FROM store_lock     " .
+            $query = " SELECT DISTINCT id,          " .
+                "                      user_id,     " .
+                "                      what,        " .
+                "                      type,        " .
+                "                      email,       " .
+                "                      password,    " .
+                "                      note,        " .
+                "                      date_create, " .
+                "                      date_edit    " .
+                "                 FROM store_lock   " .
                 "                WHERE id = " . $id;
 
             $this->_mysqli = $this->dbConnect();
@@ -116,7 +116,7 @@ Class LOCK extends REST
 
         $lock = json_decode(file_get_contents("php://input"), true);
         $id = (int)$lock['id'];
-        $column_names = array('customerName', 'email', 'city', 'address', 'country');
+        $column_names = array('what', 'type', 'email', 'password', 'note', 'date_create', 'date_edit');
         $keys = array_keys($lock['lock']);
         $columns = '';
 

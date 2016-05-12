@@ -8,24 +8,26 @@ require('angular-route');
 require('angular-sanitize');
 
 // Loading app modules
-require('list/list.module');
-require('edit/edit.module');
-require('data/translations/en');
 require('data/data.module');
-require('services/services.module');
+require('data/translations/en');
+require('edit/edit.module');
 require('layout/layout.module');
+require('list/list.module');
+require('login/login.module');
+require('services/services.module');
 
 // Dependency injection
 angular.module('app', [
         'ngSanitize',
         'ngRoute',
-    
-        'app.edit',
-        'app.list',
+
         'app.data',
+        'app.edit',
+        'app.layout',
+        'app.list',
+        'app.login',
         'app.services',
-        'app.translations',
-        'app.layout'
+        'app.translations'
     ])
     .config(AppConfig)
     .run(AppRun);
@@ -38,5 +40,5 @@ function AppConfig() {}
 AppRun.$inject = ['$rootScope'];
 
 function AppRun($rootScope) {
-    $rootScope.isLoggedIn = true;
+    $rootScope.isLoggedIn = false;
 }

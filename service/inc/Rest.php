@@ -4,6 +4,7 @@
 
 	class REST extends DBUTILS
     {
+		public $data;
 		public $_request = array();
 
 		public function __construct() {

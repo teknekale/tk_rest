@@ -1,8 +1,8 @@
 <?php
 
-require_once("inc/DBUtils.php");
+require_once("inc/Rest.php");
 
-Class USER extends DBUTILS
+Class USER extends REST
 {
     public function getUsers()
     {
