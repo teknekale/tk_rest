@@ -21,44 +21,49 @@ function Directive(LoginService, $rootScope) {
             'password': ''
         };
 
+        if (config.hasOwnProperty('debug') &&
+            config.debug.hasOwnProperty('autoLogin') &&
+            config.debug.autoLogin) {
+            loginSuccess();
+        }
+
         function loginAction() {
-            var response;
-
-            if (config.hasOwnProperty('debug') &&
-                config.debug.hasOwnProperty('autoLogin') &&
-                config.debug.autoLogin) {
-
-                loginSuccess();
-            }
-            else {
-                response = LoginService.login(
-                    $scope.credentials.username,
-                    $scope.credentials.password
-                );
-
-                response.status ? loginSuccess(response) : loginFail(response);
-            }
+            LoginService.login(
+                $scope.credentials.username,
+                $scope.credentials.password
+            ).then(
+                function success(response) {
+                    loginSuccess(response)
+                },
+                function fail(response) {
+                    loginFail(response);
+                }
+            );
         }
 
         function loginSuccess(response) {
+            $rootScope.isLoggedIn = true;
+
             if (config.hasOwnProperty('debug') &&
                 config.debug.hasOwnProperty('user') &&
                 config.debug.hasOwnProperty('autoLogin') &&
                 config.debug.autoLogin) {
 
                 $rootScope.user = config.debug.user;
-            }
-            else {
-                $rootScope.user = response;
+                return;
             }
 
-            $rootScope.isLoggedIn = true;
+            $rootScope.user = response.data;
         }
 
-        //TODO: change data structure
         function loginFail(response) {
             $scope.errorList.length = 0;
-            $scope.errorList.push(response.error);
+            $scope.errorList.push(response.data.msg);
+        }
+
+        function logout() {
+            $rootScope.user = null;
+            $rootScope.isLoggedIn = false;
         }
     }
 

@@ -16,10 +16,7 @@ function Service($http) {
                     {
                         'username': username,
                         'password': password
-                    })
-                .then(function (status) {
-                    return status.data;
-                });
+                    });
         }
     };
 }

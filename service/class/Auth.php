@@ -9,33 +9,23 @@ Class AUTH extends REST
         $this->checkCall("POST");
 
         $auth = json_decode(file_get_contents("php://input"), true);
-        $column_names = array('username\', \'password');
-        $keys = array_keys($auth);
-        $columns = '';
-        $values = '';
 
-        foreach ($column_names as $desired_key) {
-            if (!in_array($desired_key, $keys)) {
-                $$desired_key = '';
-            } else {
-                $$desired_key = $auth[$desired_key];
-            }
+        $error = array(
+            'status' => "Failed",
+            "msg"    => "Invalid Username address or Password"
+        );
 
-            $columns = $columns . $desired_key . ',';
-            $values = $values . "'" . $$desired_key . "',";
-        }
-
-		if(!empty($username) and !empty($password)) {
+		if($auth) {
             $query = " SELECT id,         " .
                 "             username,   " .
                 "             nome,       " .
                 "             cognome,    " .
                 "             email,      " .
                 "             type,       " .
-                "             note,       " .
-                "        FROM users       " .
-                "       WHERE username = '" . $values['username'] . "'          " .
-                "         AND password = '" . $values['password'] . "' LIMIT 1  " .
+                "             note        " .
+                "        FROM user        " .
+                "       WHERE username = '" . $auth['username'] . "'         " .
+                "         AND password = '" . $auth['password'] . "' LIMIT 1 " .
                 "";
 
             $this->_mysqli = $this->dbConnect();
@@ -45,14 +35,10 @@ Class AUTH extends REST
                 $result = $r->fetch_assoc();
                 $this->response($this->json($result), 200);
             }
-
-            $this->response('', 204);
+            else {
+                $this->response($this->json($error), 400);
+            }
 		}
-
-		$error = array(
-            'status' => "Failed",
-            "msg"    => "Invalid Username address or Password"
-        );
 
 		$this->response($this->json($error), 400);
     }

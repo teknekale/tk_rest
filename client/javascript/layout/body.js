@@ -6,11 +6,15 @@ angular
     .module('app.layout')
     .directive('tkBody', Directive);
 
-Directive.$inject = [];
+Directive.$inject = ['LoginService'];
 
-function Directive() {
+function Directive(LoginService) {
     function Link($scope, $element) {
+        $scope.logout = logout;
 
+        function logout() {
+            LoginService.logout();
+        }
     }
 
     function Controller() {
