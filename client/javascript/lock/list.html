@@ -1,0 +1,37 @@
+ <div data-ng-controller="ListController as vm">
+    <div ng-show="vm.locks.length > 0">
+        <nav role= "navigation"     >
+            <div>
+                <a href="#/edit-lock/0" translate>NEW_LOCK</a>
+            </div>
+        </nav>
+
+        <table>
+            <thead>
+                <th translate>LOCK_WHAT</th>
+                <th translate>LOCK_EMAIL</th>
+                <th translate>LOCK_PASSWORD</th>
+                <th translate>LOCK_TYPE</th>
+                <th translate>LOCK_NOTE</th>
+                <th>&nbsp;</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="lock in vm.locks">
+                    <td>{{ lock.what }}</td>
+                    <td>{{ lock.email }}</td>
+                    <td>{{ lock.password }}</td>
+                    <td>{{ lock.type }}</td>
+                    <td>{{ lock.note }}</td>
+                    <td>
+                        <a href="#/edit-lock/{{lock.id}}" translation>EDIT</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div ng-show="vm.locks.length == 0">
+        <div>
+            <h4 translate>NO_LOCKS</h4>
+        </div>
+    </div>
+</div>

@@ -2,5 +2,5 @@
 
 angular.module('app.services', []);
 
-require('services/service');
+require('services/lock');
 require('services/login');

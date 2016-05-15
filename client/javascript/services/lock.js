@@ -4,45 +4,45 @@ var config  = require('config');
 
 angular
     .module('app.services')
-    .factory('AccountService', Factory);
+    .factory('LockService', Factory);
 
 Factory.$inject = ['$http'];
 
 function Factory($http) {
     return {
-        'getCustomers': function() {
+        'getLocks': function() {
             return $http
-                    .get(config.REST.endpoint + 'customers');
+                    .get(config.REST.endpoint + 'locks');
         },
 
-        'getCustomer': function(customerID) {
+        'getLock': function(lockID) {
             return $http
-                    .get(config.REST.endpoint + 'customer?id=' + customerID);
+                    .get(config.REST.endpoint + 'lock?id=' + lockID);
         },
 
-        'insertCustomer': function (customer) {
+        'insertLock': function (lock) {
             return $http
-                    .post(config.REST.endpoint + 'insertCustomer', customer)
+                    .post(config.REST.endpoint + 'insertLock', lock)
                     .then(function (results) {
                         return results;
                     });
         },
 
-        'updateCustomer': function (id,customer) {
+        'updateLock': function (id,lock) {
             return $http
-                    .post(config.REST.endpoint + 'updateCustomer',
+                    .post(config.REST.endpoint + 'updateLock',
                         {
                             id:id,
-                            customer:customer
+                            lock:lock
                         })
                     .then(function (status) {
                         return status.data;
                     });
         },
 
-        'deleteCustomer': function (id) {
+        'deleteLock': function (id) {
             return $http
-                    .delete(config.REST.endpoint + 'deleteCustomer?id=' + id)
+                    .delete(config.REST.endpoint + 'deleteLock?id=' + id)
                     .then(function (status) {
                         return status
                     });

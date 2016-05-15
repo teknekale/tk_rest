@@ -10,9 +10,8 @@ require('angular-sanitize');
 // Loading app modules
 require('data/data.module');
 require('data/translations/en');
-require('edit/edit.module');
 require('layout/layout.module');
-require('list/list.module');
+require('lock/lock.module');
 require('login/login.module');
 require('services/services.module');
 
@@ -22,9 +21,8 @@ angular.module('app', [
         'ngRoute',
 
         'app.data',
-        'app.edit',
         'app.layout',
-        'app.list',
+        'app.lock',
         'app.login',
         'app.services',
         'app.translations'

@@ -11,11 +11,11 @@ Routes.$inject = ['$routeProvider'];
 function Routes($routeProvider) {
     $routeProvider.
         when('/list', {
-            templateUrl: 'list/list.html',
+            templateUrl: 'lock/list.html',
         })
 
-        .when('/edit-customer/:customerID', {
-            templateUrl: 'edit/edit.html',
+        .when('/edit-lock/:lockID', {
+            templateUrl: 'lock/edit.html',
         })
 
         .otherwise({

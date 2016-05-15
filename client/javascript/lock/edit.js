@@ -2,10 +2,10 @@
 
 var _ = require('lodash');
 
-require('edit/edit.html');
+require('lock/edit.html');
 
 angular
-    .module('app.edit')
+    .module('app.lock')
     .controller('EditController', Controller);
 
 Controller.$inject = ['$rootScope', '$location', '$routeParams', 'AccountService'];

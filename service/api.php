@@ -3,14 +3,12 @@
 require_once("inc/Rest.php");
 
 require_once("class/Auth.php");
-require_once("class/Customer.php");
 require_once("class/Lock.php");
 require_once("class/User.php");
 
 class API extends REST
 {
 	public $_auth;
-	public $_customer;
 	public $_lock;
 	public $_user;
 
@@ -18,7 +16,6 @@ class API extends REST
 		parent::__construct();
 
 		$this->_auth     = new AUTH;
-        $this->_customer = new CUSTOMER;
 		$this->_lock     = new LOCK;
         $this->_user     = new USER;
 	}
@@ -36,14 +33,6 @@ class API extends REST
 //////////////////////////////////////////////////////////////////////////////////////////
 //	LOGIN
 	private function login() { $this->_auth->login(); }
-
-//////////////////////////////////////////////////////////////////////////////////////////
-//  CUSTOMER
-	private function customers() 	  { $this->_customer->getCustomers(); 	}
-	private function customer() 	  { $this->_customer->getCustomer(); 	}
-	private function insertCustomer() { $this->_customer->insertCustomer(); }
-	private function updateCustomer() { $this->_customer->updateCustomer(); }
-	private function deleteCustomer() { $this->_customer->updateCustomer(); }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 //  USER
