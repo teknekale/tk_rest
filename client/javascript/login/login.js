@@ -60,11 +60,6 @@ function Directive(LoginService, $rootScope) {
             $scope.errorList.length = 0;
             $scope.errorList.push(response.data.msg);
         }
-
-        function logout() {
-            $rootScope.user = null;
-            $rootScope.isLoggedIn = false;
-        }
     }
 
     return {

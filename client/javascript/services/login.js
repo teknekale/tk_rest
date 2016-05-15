@@ -6,9 +6,9 @@ angular
     .module('app.services')
     .factory('LoginService', Service);
 
-Service.$inject = ['$http'];
+Service.$inject = ['$http', '$rootScope'];
 
-function Service($http) {
+function Service($http, $rootScope) {
     return {
         'login': function (username, password) {
             return $http
@@ -17,6 +17,11 @@ function Service($http) {
                         'username': username,
                         'password': password
                     });
+        },
+        
+        'logout' : function() {
+            $rootScope.user = null;
+            $rootScope.isLoggedIn = false;
         }
     };
 }

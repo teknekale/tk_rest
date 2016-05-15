@@ -4,5 +4,3 @@
     //header("Location: ./build-site/index.html");
     die();
 
-?>
-

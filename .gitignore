@@ -4,6 +4,7 @@ node_modules/
 .idea/
 build-dev/
 build-site/
+client/javascript/config.js
 
 *.iml
 *.class
