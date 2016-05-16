@@ -1,6 +1,6 @@
 'use strict';
 
-var url =  'http://127.0.0.1:80/edsa-rest/';
+var url =  'http://127.0.0.1:8888/edsa-rest/';
 
 module.exports = {
     'REST': {
@@ -10,7 +10,7 @@ module.exports = {
     'debug' : {
         'autoLogin': true,
         'user': {
-            'id': 1,
+            'id'       : 1,
             'username' : 'simone.pachera',
             'nome'     : 'Simone',
             'cognome'  : 'Pachera',

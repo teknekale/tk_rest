@@ -74,9 +74,9 @@ Class LOCK extends REST
     {
         $this->checkCall("POST");
 
-        $lock = json_decode(file_get_contents("php://input"), true);
-        $column_names = array('user_id', 'what', 'type', 'email', 'password', 'note', 'date_create', 'date_edit');
-        $keys = array_keys($lock);
+        $request = json_decode(file_get_contents("php://input"), true);
+        $column_names = array('user_id', 'what', 'email', 'password');
+        $keys = array_keys($request);
         $columns = '';
         $values = '';
 
@@ -84,7 +84,7 @@ Class LOCK extends REST
             if (!in_array($desired_key, $keys)) {
                 $$desired_key = '';
             } else {
-                $$desired_key = $lock[$desired_key];
+                $$desired_key = $request[$desired_key];
             }
 
             $columns = $columns . $desired_key . ',';
@@ -94,14 +94,14 @@ Class LOCK extends REST
         $query = " INSERT INTO store_lock(" . trim($columns, ',') . ")" .
                  "      VALUES(" . trim($values, ',') . ")";
 
-        if (!empty($lock)) {
+        if (!empty($request)) {
             $this->_mysqli = $this->dbConnect();
             $r = $this->_mysqli->query($query) or die($this->_mysqli->error . __LINE__);
 
             $success = array(
                 'status' => "Success",
                 "msg"    => "Lock Created Successfully.",
-                "data"   => $lock
+                "data"   => $request
             );
 
             $this->response($this->json($success), 200);
@@ -114,32 +114,32 @@ Class LOCK extends REST
     {
         $this->checkCall("POST");
 
-        $lock = json_decode(file_get_contents("php://input"), true);
-        $id = (int)$lock['id'];
-        $column_names = array('what', 'type', 'email', 'password', 'note', 'date_create', 'date_edit');
-        $keys = array_keys($lock['lock']);
+        $request = json_decode(file_get_contents("php://input"), true);
+        $id = (int)$request['id'];
+        $column_names = array('user_id', 'what', 'type', 'email', 'password', 'note', 'date_create', 'date_edit');
+        $keys = array_keys($request['lock']);
         $columns = '';
 
         foreach ($column_names as $desired_key) {
             if (!in_array($desired_key, $keys)) {
                 $$desired_key = '';
             } else {
-                $$desired_key = $lock['lock'][$desired_key];
+                $$desired_key = $request['lock'][$desired_key];
             }
 
             $columns = $columns . $desired_key . "='" . $$desired_key . "',";
         }
 
         $query = " UPDATE store_lock SET " . trim($columns, ',') .
-                 "  WHERE customerNumber=$id";
+            "       WHERE id = " . $id;
 
-        if (!empty($lock)) {
+        if (!empty($request)) {
             $this->_mysqli = $this->dbConnect();
             $r = $this->_mysqli->query($query) or die($this->_mysqli->error . __LINE__);
             $success = array(
                 'status' => "Success",
                 "msg"    => "Lock " . $id . " Updated Successfully.",
-                "data"   => $lock
+                "data"   => $request
             );
 
             $this->response($this->json($success), 200);
@@ -156,7 +156,7 @@ Class LOCK extends REST
 
         if ($id > 0) {
             $query = " DELETE FROM store_lock" .
-                "       WHERE customerNumber = " . $id;
+                "       WHERE id = " . $id;
 
             $this->_mysqli = $this->dbConnect();
             $r = $this->_mysqli->query($query) or die($this->_mysqli->error . __LINE__);

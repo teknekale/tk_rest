@@ -28,12 +28,12 @@ function Factory($http) {
                     });
         },
 
-        'updateLock': function (id,lock) {
+        'updateLock': function (id, lock) {
             return $http
                     .post(config.REST.endpoint + 'updateLock',
                         {
-                            id:id,
-                            lock:lock
+                            id   : id,
+                            lock : lock
                         })
                     .then(function (status) {
                         return status.data;

@@ -1,22 +1,12 @@
-﻿<div data-ng-controller="EditController as vm" >
-    <style type="text/css">
-      .form-horizontal input.ng-invalid.ng-dirty {
-        border-color: #FA787E;
-      }
-
-      .form-horizontal input.ng-valid.ng-dirty {
-        border-color: #78FA89;
-      }
-    </style>
-    <div class="view">
-        <div class="container">
-            <div class="row">
-                
-                <nav class= "navbar navbar-default" role= "navigation" >
-                    <div class= "navbar-header" >
-                        <a class= "navbar-brand" href= "#/locks"><i class="glyphicon glyphicon-th-large"></i> Locks List </a>
-                        <a ng-show="vm.lock._id" class= "navbar-brand" href= "#/edit-lock/0"><i class="glyphicon glyphicon-plus"></i> Create Customer </a>
-                        <a ng-show="vm.lock._id" class= "navbar-brand pull-right"><i class="glyphicon glyphicon-edit"></i> Currently Editing Customer Number: {{lock._id}}</a>
+﻿<div data-ng-controller="EditController as vm" class="edit-lock">
+    <div>
+        <div>
+            <div>
+                <nav role= "navigation" >
+                    <div>
+                        <a href= "#/locks">Locks List </a>
+                        <a ng-show="vm.lock._id" href= "#/edit-lock/0">Create Lock </a>
+                        <a ng-show="vm.lock._id" >Currently Editing Lock Number: {{ lock._id }}</a>
                     </div>
                 </nav>
 
@@ -24,52 +14,39 @@
                     <h3>{{ title }}</h3>
                 </header>
 
-                <div class="col-md-12">
-
+                <div>
                     <form role="form" name="myForm" class="form-horizontal">
-                        <div class="row">
-                            <div class= "form-group" ng-class="{error: myForm.name.$invalid}">
-                                <label class= "col-md-2"> Name </label>
-                                <div class="col-md-4">
-                                <input name="name" ng-model="vm.lock.lockName" type= "text" class= "form-control" placeholder="Your name" required/>
-                                <span ng-show="myForm.name.$dirty && myForm.name.$invalid" class="help-inline">Name Required</span>
+                        <div>
+                            <div class= "form-group" ng-class="{ error: myForm.what.$invalid }">
+                                <label>What</label>
+                                <div>
+                                    <input name="what" ng-model="vm.lock.what" type= "text" class= "form-control" placeholder="What" required/>
+                                    <span ng-show="myForm.what.$dirty && myForm.what.$invalid" class="help-inline">It cannot be empty</span>
                                 </div>
                             </div>
-                            <div class= "form-group">
-                                <label class= "col-md-2"> Email address </label>
-                                <div class="col-md-4">
-                                <input name="email" ng-model="vm.lock.email" type= "email" class= "form-control" placeholder="Enter email" required/>
-                                <span ng-show="myForm.email.$dirty && myForm.email.$invalid && !myForm.email.$error.email" class="help-inline">Email Required</span>
-                                <span ng-show="myForm.email.$error.email" class="help-inline">Email is not valid</span>
+
+                            <div class= "form-group" ng-class="{ error: myForm.email.$invalid }">
+                                <label> Email address </label>
+                                <div>
+                                    <input name="email" ng-model="vm.lock.email" type= "email" class= "form-control" placeholder="Email" required/>
+                                    <span ng-show="myForm.email.$dirty && myForm.email.$invalid && !myForm.email.$error.email" class="help-inline">Email Required</span>
+                                    <span ng-show="myForm.email.$error.email" class="help-inline">Email is not valid</span>
                                 </div>
                             </div>
-                            <div class= "form-group">
-                                <label class= "col-md-2">Address </label>
-                                <div class="col-md-4">
-                                <input ng-model="vm.lock.address" type= "text" class= "form-control" placeholder= "Present Address"/>
+
+                            <div class= "form-group" ng-class="{ error: myForm.password.$invalid }">
+                                <label>Password</label>
+                                <div>
+                                    <input name="password" ng-model="vm.lock.password" type= "text" class= "form-control" placeholder="Password" required/>
+                                    <span ng-show="myForm.password.$dirty && myForm.password.$invalid" class="help-inline">Password</span>
                                 </div>
                             </div>
+
                             <div class= "form-group">
-                                <label class= "col-md-2">City </label>
-                                <div class="col-md-4">
-                                <input ng-model="vm.lock.city" type= "text" class= "form-control" placeholder= "Current City"/>
-                                </div>
-                            </div>
-                            <div class= "form-group">
-                                <label class= "col-md-2">Country </label>
-                                <div class="col-md-4">
-                                <input ng-model="vm.lock.country" type= "text" class= "form-control" placeholder= "Residing Country"/>
-                                </div>
-                            </div>
-                            <div class= "form-group">
-                                <label class= "col-md-2"></label>
-                                <div class="col-md-4">
-                                <a href="#/" class="btn">Cancel</a>
-                                    <button ng-click="vm.saveCustomer(vm.lock)"
-                                            ng-disabled="myForm.$invalid"
-                                            class="btn btn-primary">SAVE</button>
-                                    <button ng-click="vm.deleteCustomer(vm.lock)"
-                                            ng-show="vm.lock._id" class="btn btn-warning">Delete</button>
+                                <div>
+                                    <a href="#/" translate>CANCEL</a>
+                                    <button ng-click="vm.saveLock(vm.lock)" ng-disabled="myForm.$invalid" translate>SAVE</button>
+                                    <button ng-click="vm.deleteLock(vm.lock)" ng-show="vm.lock._id" translate>DELETE</button>
                                 </div>
                             </div>
                         </div>

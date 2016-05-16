@@ -8,55 +8,60 @@ angular
     .module('app.lock')
     .controller('EditController', Controller);
 
-Controller.$inject = ['$rootScope', '$location', '$routeParams', 'AccountService'];
+Controller.$inject = ['$rootScope', '$location', '$routeParams', 'LockService'];
 
-function Controller($rootScope, $location, $routeParams, AccountService) {
+function Controller($rootScope, $location, $routeParams, LockService) {
     var vm         = this,
-        customerID = ($routeParams.customerID) ? parseInt($routeParams.customerID) : 0,
+        lockID = ($routeParams.lockID) ? parseInt($routeParams.lockID) : 0,
         isLoaded   = false,
         original;
 
-    $rootScope.title = (customerID > 0) ? 'Edit Customer' : 'Add Customer';
-    vm.buttonText    = (customerID > 0) ? 'Update Customer' : 'Add New Customer';
+    $rootScope.title = (lockID > 0) ? 'Edit Lock' : 'Add Lock';
+    vm.buttonText    = (lockID > 0) ? 'Update Lock' : 'Add New Lock';
 
-    vm.deleteCustomer = deleteCustomer;
-    vm.saveCustomer   = saveCustomer;
+    vm.deleteLock = deleteLock;
+    vm.saveLock   = saveLock;
 
-    getCustomer();
+    getLock();
 
-    function getCustomer() {
+    function getLock() {
         if(!isLoaded) {
-            AccountService
-                .getCustomer(customerID)
+            LockService
+                .getLock(lockID)
                 .then(function (data) {
                     if (!_.isEmpty(data.data)) {
                         isLoaded = true;
 
                         original = data.data;
-                        original._id = customerID;
-                        vm.customer = original;
-                        vm.customer._id = original._id;
+                        original._id = lockID;
+                        vm.lock = original;
+                        vm.lock._id = original._id;
                     }
                 });
         }
     }
 
-    function deleteCustomer(customer) {
+    function deleteLock(lock) {
         $location.path('/');
 
-        if (confirm("Are you sure to delete customer number: " + vm.customer._id) == true) {
-            AccountService.deleteCustomer(customer.customerNumber);
+        if (confirm("Are you sure to delete lock number: " + vm.lock._id) == true) {
+            LockService.deleteLock(lock.lockNumber);
         }
     }
 
-    function saveCustomer(customer) {
+    function saveLock(lock) {
         $location.path('/');
 
-        if (customerID <= 0) {
-            AccountService.insertCustomer(customer);
+        if (lockID <= 0) {
+            if(!lock.type) {
+                lock.type = 'test';
+            }
+
+            lock.user_id = $rootScope.user.id;
+            LockService.insertLock(lock);
         }
         else {
-            AccountService.updateCustomer(customerID, customer);
+            LockService.updateLock(lockID, lock);
         }
     }
 }
