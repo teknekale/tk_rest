@@ -16,8 +16,8 @@ CREATE TABLE `store_lock` (
   `email`       varchar(50) NOT NULL,
   `password`    varchar(50) NOT NULL,
   `note`        text,
-  `date_create` int(11),
-  `date_edit`   int(11),
+  `date_create` varchar(13),
+  `date_edit`   varchar(13),
 
   PRIMARY KEY (`id`)
 );
@@ -44,8 +44,8 @@ CREATE TABLE `user` (
   `password`    varchar(50) NOT NULL,
   `type`        varchar(50) NOT NULL,
   `note`        text,
-  `date_create` int(11),
-  `date_edit`   int(11),
+  `date_create` varchar(13),
+  `date_edit`   varchar(13),
 
   PRIMARY KEY (`id`)
 );

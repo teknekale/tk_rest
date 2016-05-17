@@ -75,7 +75,7 @@ Class LOCK extends REST
         $this->checkCall("POST");
 
         $request = json_decode(file_get_contents("php://input"), true);
-        $column_names = array('user_id', 'what', 'email', 'password');
+        $column_names = array('user_id', 'what', 'type', 'email', 'password', 'note', 'date_create', 'date_edit');
         $keys = array_keys($request);
         $columns = '';
         $values = '';

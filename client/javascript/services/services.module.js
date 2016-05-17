@@ -4,3 +4,4 @@ angular.module('app.services', []);
 
 require('services/lock');
 require('services/login');
+require('services/utils');

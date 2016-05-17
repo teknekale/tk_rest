@@ -8,15 +8,15 @@ angular
     .module('app.lock')
     .controller('EditController', Controller);
 
-Controller.$inject = ['$rootScope', '$location', '$routeParams', 'LockService'];
+Controller.$inject = ['$rootScope', '$location', '$routeParams', 'LockService', 'UtilsService'];
 
-function Controller($rootScope, $location, $routeParams, LockService) {
-    var vm         = this,
-        lockID = ($routeParams.lockID) ? parseInt($routeParams.lockID) : 0,
-        isLoaded   = false,
+function Controller($rootScope, $location, $routeParams, LockService, UtilsService) {
+    var vm       = this,
+        lockID   = ($routeParams.lockID) ? parseInt($routeParams.lockID) : 0,
+        isLoaded = false,
         original;
 
-    $rootScope.title = (lockID > 0) ? 'Edit Lock' : 'Add Lock';
+    $rootScope.title = (lockID > 0) ? 'Edit Lock'   : 'Add New Lock';
     vm.buttonText    = (lockID > 0) ? 'Update Lock' : 'Add New Lock';
 
     vm.deleteLock = deleteLock;
@@ -32,10 +32,16 @@ function Controller($rootScope, $location, $routeParams, LockService) {
                     if (!_.isEmpty(data.data)) {
                         isLoaded = true;
 
-                        original = data.data;
+                        original     = data.data;
                         original._id = lockID;
-                        vm.lock = original;
-                        vm.lock._id = original._id;
+
+                        vm.lock      = original;
+                        vm.lock._id  = original._id;
+                    }
+                    else {
+                        vm.lock             = {};
+                        vm.lock.user_id     = $rootScope.user.id;
+                        vm.lock.type        = 'test'; //TODO: this will be a dropdown
                     }
                 });
         }
@@ -50,14 +56,13 @@ function Controller($rootScope, $location, $routeParams, LockService) {
     }
 
     function saveLock(lock) {
+        var timestamp = UtilsService.getTimestamp();
+
         $location.path('/');
+        vm.lock.date_edit = timestamp;
 
         if (lockID <= 0) {
-            if(!lock.type) {
-                lock.type = 'test';
-            }
-
-            lock.user_id = $rootScope.user.id;
+            vm.lock.date_create = timestamp;
             LockService.insertLock(lock);
         }
         else {
