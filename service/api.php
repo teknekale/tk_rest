@@ -5,19 +5,22 @@ require_once("inc/Rest.php");
 require_once("class/Auth.php");
 require_once("class/Lock.php");
 require_once("class/User.php");
+require_once("class/Type.php");
 
 class API extends REST
 {
 	public $_auth;
 	public $_lock;
 	public $_user;
+	public $_type;
 
 	public function __construct() {
 		parent::__construct();
 
-		$this->_auth     = new AUTH;
-		$this->_lock     = new LOCK;
-        $this->_user     = new USER;
+		$this->_auth = new AUTH;
+		$this->_lock = new LOCK;
+        $this->_user = new USER;
+		$this->_type = new TYPE;
 	}
 
 	public function processApi() {
@@ -32,7 +35,7 @@ class API extends REST
 
 //////////////////////////////////////////////////////////////////////////////////////////
 //	LOGIN
-	private function login() { $this->_auth->login(); }
+	private function login() 	  { $this->_auth->login(); }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 //  USER
@@ -51,7 +54,10 @@ class API extends REST
 	private function deleteLock() { $this->_lock->updateLock(); }
 
 //////////////////////////////////////////////////////////////////////////////////////////
+//  TYPE
+	private function types() 	  { $this->_type->getTypes(); 	}
 
+//////////////////////////////////////////////////////////////////////////////////////////
 }
 
 // Initiiate Library

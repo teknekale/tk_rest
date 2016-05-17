@@ -8,7 +8,7 @@ module.exports = {
     },
 
     'debug' : {
-        'autoLogin': true,
+        'autoLogin': false,
         'user': {
             'id'       : 1,
             'username' : 'simone.pachera',

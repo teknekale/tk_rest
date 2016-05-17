@@ -8,17 +8,20 @@ Class LOCK extends REST
     {
         $this->checkCall("GET");
 
-        $query = " SELECT DISTINCT id,          " .
-            "                      user_id,     " .
-            "                      what,        " .
-            "                      type,        " .
-            "                      email,       " .
-            "                      password,    " .
-            "                      note,        " .
-            "                      date_create, " .
-            "                      date_edit    " .
-            "                 FROM store_lock   " .
-            "             ORDER BY type DESC    " .
+        $query = " SELECT DISTINCT s.id,            " .
+            "                      s.user_id,       " .
+            "                      s.type_id,       " .
+            "                      t.type,          " .
+            "                      s.what,          " .
+            "                      s.email,         " .
+            "                      s.password,      " .
+            "                      s.note,          " .
+            "                      s.date_create,   " .
+            "                      s.date_edit      " .
+            "                 FROM store_lock s     " .
+            "                 JOIN type t           " .
+            "                   ON t.id = s.type_id " .
+            "             ORDER BY t.type DESC      " .
             "";
 
         $this->_mysqli = $this->dbConnect();
@@ -46,17 +49,20 @@ Class LOCK extends REST
 
         if ($id > 0) {
 
-            $query = " SELECT DISTINCT id,          " .
-                "                      user_id,     " .
-                "                      what,        " .
-                "                      type,        " .
-                "                      email,       " .
-                "                      password,    " .
-                "                      note,        " .
-                "                      date_create, " .
-                "                      date_edit    " .
-                "                 FROM store_lock   " .
-                "                WHERE id = " . $id;
+            $query = " SELECT DISTINCT s.id,            " .
+                "                      s.user_id,       " .
+                "                      s.type_id,       " .
+                "                      t.type,          " .
+                "                      s.what,          " .
+                "                      s.email,         " .
+                "                      s.password,      " .
+                "                      s.note,          " .
+                "                      s.date_create,   " .
+                "                      s.date_edit      " .
+                "                 FROM store_lock s     " .
+                "                 JOIN type t           " .
+                "                   ON t.id = s.type_id " .
+                "                WHERE s.id = " . $id;
 
             $this->_mysqli = $this->dbConnect();
             $r = $this->_mysqli->query($query) or die($this->_mysqli->error . __LINE__);
@@ -75,7 +81,7 @@ Class LOCK extends REST
         $this->checkCall("POST");
 
         $request = json_decode(file_get_contents("php://input"), true);
-        $column_names = array('user_id', 'what', 'type', 'email', 'password', 'note', 'date_create', 'date_edit');
+        $column_names = array('user_id', 'type_id', 'what', 'email', 'password', 'note', 'date_create', 'date_edit');
         $keys = array_keys($request);
         $columns = '';
         $values = '';
@@ -116,7 +122,7 @@ Class LOCK extends REST
 
         $request = json_decode(file_get_contents("php://input"), true);
         $id = (int)$request['id'];
-        $column_names = array('user_id', 'what', 'type', 'email', 'password', 'note', 'date_create', 'date_edit');
+        $column_names = array('user_id', 'type_id', 'what', 'email', 'password', 'note', 'date_create', 'date_edit');
         $keys = array_keys($request['lock']);
         $columns = '';
 

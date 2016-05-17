@@ -39,9 +39,9 @@ function Controller($rootScope, $location, $routeParams, LockService, UtilsServi
                         vm.lock._id  = original._id;
                     }
                     else {
-                        vm.lock             = {};
-                        vm.lock.user_id     = $rootScope.user.id;
-                        vm.lock.type        = 'test'; //TODO: this will be a dropdown
+                        vm.lock         = {};
+                        vm.lock.user_id = $rootScope.user.id;
+                        vm.lock.type    = 'test'; //TODO: this will be a dropdown
                     }
                 });
         }
