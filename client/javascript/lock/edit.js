@@ -22,8 +22,16 @@ function Controller($rootScope, $location, $routeParams, LockService, UtilsServi
     vm.deleteLock = deleteLock;
     vm.saveLock   = saveLock;
 
+    UtilsService
+        .getTypes()
+        .then(
+            function (response) {
+                vm.types = response.data;
+                vm.lock.type_id = (lockID > 0) ? vm.lock.type_id : vm.types[0].id;
+            }
+        );
+
     getLock();
-    getTypes();
 
     function getLock() {
         if(!isLoaded) {
@@ -47,21 +55,10 @@ function Controller($rootScope, $location, $routeParams, LockService, UtilsServi
         }
     }
 
-    function getTypes() {
-        UtilsService
-            .getTypes()
-            .then(
-                function (response) {
-                    vm.types = response.data;
-                    vm.lock.type_id = (lockID > 0) ? vm.lock.type_id : vm.types[0].id;
-                }
-            );
-    }
-
     function deleteLock(lock) {
         $location.path('/');
 
-        if (confirm("Are you sure to delete lock number: " + vm.lock._id) == true) {
+        if (confirm("Are you sure to delete lock number: " + vm.lock._id) === true) {
             LockService.deleteLock(lock.id);
         }
     }

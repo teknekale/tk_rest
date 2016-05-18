@@ -6,12 +6,14 @@ angular
     .module('app.lock')
     .controller('ListController', Controller);
 
-Controller.$inject = ['$rootScope', 'LockService'];
+Controller.$inject = ['$rootScope', 'LockService', '$location'];
 
-function Controller($rootScope, LockService) {
+function Controller($rootScope, LockService, $location) {
     var vm = this;
 
     $rootScope.title = 'Locks List';
+
+    vm.deleteLock = deleteLock;
 
     LockService
         .getLocks()
@@ -20,4 +22,12 @@ function Controller($rootScope, LockService) {
                 vm.locks = response.data;
             }
         );
+
+    function deleteLock(lock) {
+        $location.path('/');
+
+        if (confirm("Are you sure to delete lock number: " + lock.id) === true) {
+            LockService.deleteLock(lock.id);
+        }
+    }
 }

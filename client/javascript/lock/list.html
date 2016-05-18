@@ -6,6 +6,9 @@
             </div>
         </nav>
 
+        <legend>Search</legend>
+        <input ng-model="vm.lockSearch.what">
+
         <table>
             <thead>
                 <th translate>LOCK_WHAT</th>
@@ -16,14 +19,15 @@
                 <th>&nbsp;</th>
             </thead>
             <tbody>
-                <tr ng-repeat="lock in vm.locks">
+                <tr ng-repeat="lock in vm.locks | filter : vm.lockSearch">
                     <td>{{ lock.what }}</td>
                     <td>{{ lock.email }}</td>
                     <td>{{ lock.password }}</td>
                     <td>{{ lock.type }}</td>
                     <td>{{ lock.note }}</td>
                     <td>
-                        <a href="#/edit-lock/{{lock.id}}" translation>EDIT</a>
+                        <a href="#/edit-lock/{{lock.id}}"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+                        <i class="fa fa-trash-o fa-lg" ng-click="vm.deleteLock(lock)"></i>
                     </td>
                 </tr>
             </tbody>
