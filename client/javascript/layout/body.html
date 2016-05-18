@@ -1,5 +1,10 @@
-<div>
-    <button ng-click="logout()">LOGOUT</button>
+<div class="body">
+    <div class="header">
+        <h3 class="title">Lockete</h3>
+        <button ng-click="logout()" class="logout">LOGOUT</button>
+    </div>
 
-    <ng-view></ng-view>
+    <div class="main-content">
+        <ng-view></ng-view>
+    </div>
 </div>

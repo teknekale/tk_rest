@@ -1,13 +1,11 @@
- <div data-ng-controller="ListController as vm">
+ <div data-ng-controller="ListController as vm" class="list-lock">
     <div ng-show="vm.locks.length > 0">
-        <nav role= "navigation"     >
-            <div>
-                <a href="#/edit-lock/0" translate>NEW_LOCK</a>
-            </div>
-        </nav>
+        <a href="#/edit-lock/0" class="new-lock" translate>NEW_LOCK</a>
 
-        <legend>Search</legend>
-        <input ng-model="vm.lockSearch.what">
+        <div class="search">
+            <legend>Search</legend>
+            <input ng-model="vm.lockSearch.what">
+        </div>
 
         <table>
             <thead>
