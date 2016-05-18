@@ -6,7 +6,7 @@
                     <div>
                         <a href= "#/locks">Locks List </a>
                         <a ng-show="vm.lock._id" href= "#/edit-lock/0">Create Lock </a>
-                        <a ng-show="vm.lock._id" >Currently Editing Lock Number: {{ lock._id }}</a>
+                        <a ng-show="vm.lock._id" >Currently Editing Lock Number: {{ vm.lock._id }}</a>
                     </div>
                 </nav>
 
@@ -39,6 +39,13 @@
                                 <div>
                                     <input name="password" ng-model="vm.lock.password" type= "text" class= "form-control" placeholder="Password" required/>
                                     <span ng-show="myForm.password.$dirty && myForm.password.$invalid" class="help-inline">Password</span>
+                                </div>
+                            </div>
+
+                            <div class= "form-group">
+                                <label>Type</label>
+                                <div ng-repeat="el in vm.types">
+                                    {{ el.type }} <input type="radio" ng-model="vm.lock.type_id" value="{{ el.id }}"/>
                                 </div>
                             </div>
 

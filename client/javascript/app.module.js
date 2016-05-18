@@ -6,6 +6,7 @@ var angular = require('angular');
 require('angular-resource');
 require('angular-route');
 require('angular-sanitize');
+require('angular-dropdowns');
 
 // Loading app modules
 require('data/data.module');
@@ -19,6 +20,7 @@ require('services/services.module');
 angular.module('app', [
         'ngSanitize',
         'ngRoute',
+        'ngDropdowns',
 
         'app.data',
         'app.layout',

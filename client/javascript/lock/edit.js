@@ -16,23 +16,24 @@ function Controller($rootScope, $location, $routeParams, LockService, UtilsServi
         isLoaded = false,
         original;
 
-    $rootScope.title = (lockID > 0) ? 'Edit Lock'   : 'Add New Lock';
-    vm.buttonText    = (lockID > 0) ? 'Update Lock' : 'Add New Lock';
+    $rootScope.title  = (lockID > 0) ? 'Edit Lock'   : 'Add New Lock';
+    vm.buttonText     = (lockID > 0) ? 'Update Lock' : 'Add New Lock';
 
     vm.deleteLock = deleteLock;
     vm.saveLock   = saveLock;
 
     getLock();
+    getTypes();
 
     function getLock() {
         if(!isLoaded) {
             LockService
                 .getLock(lockID)
-                .then(function (data) {
-                    if (!_.isEmpty(data.data)) {
+                .then(function (response) {
+                    if (!_.isEmpty(response.data)) {
                         isLoaded = true;
 
-                        original     = data.data;
+                        original     = response.data;
                         original._id = lockID;
 
                         vm.lock      = original;
@@ -41,17 +42,27 @@ function Controller($rootScope, $location, $routeParams, LockService, UtilsServi
                     else {
                         vm.lock         = {};
                         vm.lock.user_id = $rootScope.user.id;
-                        vm.lock.type    = 'test'; //TODO: this will be a dropdown
                     }
                 });
         }
+    }
+
+    function getTypes() {
+        UtilsService
+            .getTypes()
+            .then(
+                function (response) {
+                    vm.types = response.data;
+                    vm.lock.type_id = (lockID > 0) ? vm.lock.type_id : vm.types[0].id;
+                }
+            );
     }
 
     function deleteLock(lock) {
         $location.path('/');
 
         if (confirm("Are you sure to delete lock number: " + vm.lock._id) == true) {
-            LockService.deleteLock(lock.lockNumber);
+            LockService.deleteLock(lock.id);
         }
     }
 

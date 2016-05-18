@@ -16,9 +16,8 @@ function Controller($rootScope, LockService) {
     LockService
         .getLocks()
         .then(
-            function(data) {
-                console.log(data);
-                vm.locks = data.data;
+            function(response) {
+                vm.locks = response.data;
             }
         );
 }
