@@ -2,11 +2,37 @@ table {
     width: 100%;
 
     th {
-        background-color: #D2E0E6;
+        background-color: lighten(@brand-principal, 25%);
         text-align: left;
+        padding: @tiniest @tiny;
+    }
+
+    tr {
+        &:nth-child(odd) {
+            background-color: darken(@brand-white, 2%);
+
+            &:hover {
+                background-color: lighten(@brand-warning, 25%);
+                transition: background-color .5s;
+                cursor: pointer;
+            }
+        }
+
+        &:nth-child(even) {
+            background-color: darken(@brand-white, 5%);
+
+            &:hover {
+                background-color: lighten(@brand-warning, 25%);
+                transition: background-color .5s;
+                cursor: pointer;
+            }
+        }
     }
 
     td {
         text-align: left;
+        padding: @tiniest @tiny;
+        transition: background-color .5s;
+        padding: @tiniest @tiny;
     }
 }

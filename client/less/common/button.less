@@ -1,0 +1,51 @@
+.btn {
+    border: 0;
+    padding: @tiny @small;
+    font-size: @small;
+    transition: background-color .5s;
+
+    &.black {
+        background-color: @brand-black;
+        color: @brand-white;
+
+        &:hover {
+            background-color: darken(@brand-black, 10%);
+        }
+    }
+
+    &.update {
+        background-color: @brand-update;
+
+        &:hover {
+            background-color: darken(@brand-update, 10%);
+        }
+    }
+
+    &.warning {
+        background-color: @brand-warning;
+
+        &:hover {
+            background-color: darken(@brand-warning, 10%);
+        }
+    }
+
+    &.danger {
+        background-color: @brand-danger;
+
+        &:hover {
+            background-color: darken(@brand-danger, 10%);
+        }
+    }
+}
+
+a {
+    text-decoration: none;
+    text-transform: none;
+    font-weight: bold;
+    color: @brand-principal;
+    transition: color .5s;
+
+    &:hover {
+        color: darken(@brand-principal, 10%);
+    }
+}
